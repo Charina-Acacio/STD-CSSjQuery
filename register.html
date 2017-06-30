@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Awesome Document</title>
+	<!-- Bootstrap -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<style>
+.center {
+    margin: auto;
+    width: 60%;
+    
+    padding: 10px;
+}
+</style>
+</head>
+
+<body>
+<!--FORM-->
+<div class="center">
+<div class="container">  
+	<!--INSERT-->
+	<div class="row">
+    <div class="panel panel-default col-md-8 cold-md-offset-2">
+        <div class="panel-body">
+          <div id="successMsg" class="alert alert-success hide" role="alert">
+            Registration Successfull!</div>
+        
+  <form class="form-horizontal" action="">
+    <input type="hidden" id="inputID" value="15-2376-417">
+    <h3>Sign up for free</h3>
+    <div class="form-group">
+		<div class="col-md-6">
+			<input type="text" class="form-control" id="inputFirstName" placeholder="First Name*" required>
+		</div>
+		
+		<div class="col-md-6">
+			<input type="text" class="form-control" id="inputLastName" placeholder="Last Name*" required>
+		</div>
+    </div>
+
+    <div class="form-group">
+		<div class="col-md-12">
+			<input type="email" class="form-control" id="inputEmail" placeholder="Email Address*" required>
+		</div>
+    </div>
+    <div class="form-group">
+		<div class="col-md-12">
+			<input type="text" class="form-control" id="inputPassword" placeholder="Password*" required>
+		</div>
+	</div>
+    <div class="form-group">
+		<div class="col-md-12">
+			<button type="submit" class="btn btn-primary pull-right">Sign up</button>
+		</div>
+	</div>
+  
+  </form>
+
+</div>
+    </div>
+  </div>
+</div>
+
+<!--MODAL-->
+<div id="saveModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to sign-up with the following info?</p>
+        <div class="userInput"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-login">Sign-up!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SCRIPT -->
+<script type="text/javascript">
+  // load script when document is ready (all resources loaded)
+  $(document).ready(function() {
+    // global input variable
+    var input = {};
+ 
+    // on form submit
+    $('form').submit(function(e) {
+      e.preventDefault();
+ 
+      var $this = $(this);
+      // serialize form, for form submission
+      input = $this.serialize();
+	  console.log(input);
+ 
+      // fill in user input on modal box (todo)
+	  $('#saveModal .userInput').empty();
+	  $('#saveModal .userInput').append(
+		$('<p></p>').html('<strong>Name: </strong>' + $('#inputFirstName').val() + ' ' + $('#inputLastName').val())
+		);
+		
+      $('#saveModal .userInput').append(
+		$('<p></p>').html('<strong>Email: </strong>' + $('#inputEmail').val())
+		);
+      // show save modal (todo)
+	  
+	  $('#saveModal').modal('show');
+    });
+ 
+    // on btn-login click
+    $('.btn-login').click(function(e) {
+      e.preventDefault();
+      // send ajax request (todo)
+      $.ajax({
+        method: "POST",
+        url: "http://tolitsdelizo.info/st-activities/jquery/register.php",
+        data: input
+      })
+      .done(function( msg ) {
+        if (msg == 'OK') {
+          // show success msg (todo)
+			$('#successMsg').removeClass('hide').show();
+          // reset form (todo)
+			$('input[type=text], input[type=email], input[type=password]', 'form').val(null);
+			$('#saveModal').modal('hide');
+          // hide save modal (todo)
+        }
+      });
+      
+    });
+  });
+</script>
+</div>
+
+</body>
+</html>
